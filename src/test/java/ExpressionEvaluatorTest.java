@@ -93,9 +93,27 @@ class ExpressionEvaluatorTest {
     }
 
     @Test
+    void shouldThrowOnInvalidNumber() {
+        assertThrows(IllegalArgumentException.class,
+                () -> evaluator.evaluate("1..2 + 3", Map.of()));
+    }
+
+    @Test
+    void shouldIgnoreSpaces() {
+        double result = evaluator.evaluate("  2   +   3  ", Map.of());
+        assertEquals(5.0, result);
+    }
+
+    @Test
     void shouldThrowOnInvalidOperatorPlacement() {
         assertThrows(IllegalArgumentException.class,
                 () -> evaluator.evaluate("+ 2 3", Map.of()));
+    }
+
+    @Test
+    void shouldThrowOnInvalidExpressionStructure() {
+        assertThrows(IllegalArgumentException.class,
+                () -> evaluator.evaluate("2 2 + 3", Map.of()));
     }
 
     @Test
