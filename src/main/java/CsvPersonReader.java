@@ -10,7 +10,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap; // Добавлено
 import java.util.List;
+import java.util.Map; // Добавлено
 
 /**
  * Сервисный класс для чтения данных из CSV-файла и преобразования их в список объектов {@link Person}.
@@ -38,6 +40,11 @@ public class CsvPersonReader {
     public List<Person> readPersons(String csvFilePath, char separator) throws Exception {
         List<Person> persons = new ArrayList<>();
 
+        // --- ДОБАВЛЕНО: Кэш для отделов и счетчик их ID ---
+        Map<String, Department> departmentMap = new HashMap<>();
+        // Массив из одного элемента позволяет менять счетчик внутри лямбда-выражения
+        int[] departmentIdCounter = {1};
+
         // Открываем поток чтения файла из ресурсов проекта
         try (InputStream in = getClass().getClassLoader().getResourceAsStream(csvFilePath)) {
             if (in == null) {
@@ -64,8 +71,11 @@ public class CsvPersonReader {
                     String name = nextLine[1].trim();
                     String gender = nextLine[2].trim();
                     LocalDate birthDate = LocalDate.parse(nextLine[3].trim(), DATE_FORMATTER);
-                    String department = nextLine[4].trim();
+                    String deptName = nextLine[4].trim(); // Изменено имя переменной
                     BigDecimal salary = new BigDecimal(nextLine[5].trim());
+
+                    Department department = departmentMap.computeIfAbsent(deptName,
+                            key -> new Department(departmentIdCounter[0]++, key));
 
                     // Создаем объект Person и добавляем его в итоговый список
                     Person person = new Person(id, name, gender, department, salary, birthDate);

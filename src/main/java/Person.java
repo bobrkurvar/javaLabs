@@ -10,7 +10,7 @@ public class Person {
     private final int id;
     private final String name;
     private final String gender;
-    private final String department;
+    private final Department department;
     private final BigDecimal salary;
     private final LocalDate birthDate;
 
@@ -24,7 +24,7 @@ public class Person {
      * @param salary     размер заработной платы
      * @param birthDate  дата рождения человека
      */
-    public Person(int id, String name, String gender, String department, BigDecimal salary, LocalDate birthDate) {
+    public Person(int id, String name, String gender, Department department, BigDecimal salary, LocalDate birthDate) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -51,7 +51,7 @@ public class Person {
     /**
      * @return название подразделения
      */
-    public String getDepartment() { return department; }
+    public Department getDepartment() { return department; }
 
     /**
      * @return заработная плата
