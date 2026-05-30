@@ -20,7 +20,10 @@ public class Injector {
             ex.printStackTrace();
         }
     }
-
+    //метод для динамической подстановки
+    public void setProperty(String key, String value) {
+        this.properties.setProperty(key, value);
+    }
     public <T> T inject(T object) {
         Class<?> clazz = object.getClass();
         Field[] fields = clazz.getDeclaredFields();
